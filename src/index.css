@@ -1,0 +1,294 @@
+:root {
+  --bg-main: #030305;
+  --text-main: #ffffff;
+  --text-muted: #94a3b8;
+  --accent-cyan: #06b6d4;
+  --accent-purple: #8b5cf6;
+  --accent-pink: #ec4899;
+  
+  --glass-bg: rgba(255, 255, 255, 0.02);
+  --glass-border: rgba(255, 255, 255, 0.08);
+  --glass-highlight: rgba(255, 255, 255, 0.12);
+  
+  --font-heading: 'Outfit', sans-serif;
+  --font-body: 'Inter', sans-serif;
+  --font-mono: 'DM Mono', monospace;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body, html {
+  background-color: var(--bg-main);
+  color: var(--text-main);
+  font-family: var(--font-body);
+  line-height: 1.6;
+  overflow-x: hidden;
+}
+
+/* Custom Scrollbar */
+::-webkit-scrollbar {
+  width: 8px;
+}
+::-webkit-scrollbar-track {
+  background: var(--bg-main);
+}
+::-webkit-scrollbar-thumb {
+  background: var(--glass-border);
+  border-radius: 10px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: var(--accent-purple);
+}
+
+::selection {
+  background: var(--accent-purple);
+  color: white;
+}
+
+h1, h2, h3, h4 {
+  font-family: var(--font-heading);
+  letter-spacing: -0.02em;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+/* Navbar */
+.navbar {
+  position: fixed;
+  top: 0; left: 0; width: 100%;
+  padding: 1.5rem 2rem;
+  z-index: 1000;
+  transition: all 0.3s ease;
+  background: transparent;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.navbar.scrolled {
+  background: rgba(3, 3, 5, 0.8);
+  backdrop-filter: blur(12px);
+  border-bottom: 1px solid var(--glass-border);
+  padding: 1rem 2rem;
+  box-shadow: 0 5px 20px rgba(0,0,0,0.5);
+}
+
+.nav-logo a {
+  font-family: var(--font-heading);
+  font-weight: 700;
+  font-size: 1.5rem;
+  color: #fff;
+  text-decoration: none;
+  letter-spacing: -0.5px;
+}
+
+.nav-links {
+  display: flex;
+  gap: 2rem;
+}
+
+.nav-links a {
+  color: var(--text-main);
+  text-decoration: none;
+  font-family: var(--font-mono);
+  font-size: 0.9rem;
+  transition: color 0.3s ease;
+}
+
+.nav-links a:hover {
+  color: var(--accent-cyan);
+}
+
+@media (max-width: 768px) {
+  .nav-links {
+    display: none; /* simple mobile hide for now */
+  }
+}
+
+/* --- Cinematic Percentage Loader --- */
+.cinematic-loader {
+  position: fixed;
+  inset: 0;
+  background-color: #030305;
+  z-index: 100000;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  transition: opacity 0.8s ease, visibility 0.8s ease;
+}
+
+.cinematic-loader.fade-out {
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+}
+
+.loader-inner {
+  text-align: center;
+  width: 100%;
+  max-width: 500px;
+  padding: 0 2rem;
+}
+
+.count-display {
+  font-family: var(--font-heading);
+  font-size: clamp(4rem, 15vw, 10rem);
+  font-weight: 800;
+  line-height: 1;
+  color: #fff;
+  margin-bottom: 2rem;
+  letter-spacing: -2px;
+}
+
+.percent-sign {
+  font-size: clamp(2rem, 5vw, 4rem);
+  color: var(--accent-cyan);
+  margin-left: 0.5rem;
+}
+
+.progress-bar-container {
+  width: 100%;
+  height: 2px;
+  background: rgba(255, 255, 255, 0.1);
+  overflow: hidden;
+  position: relative;
+  margin-bottom: 1.5rem;
+}
+
+.progress-bar-fill {
+  position: absolute;
+  top: 0; left: 0; bottom: 0;
+  background: #fff;
+  transition: width 0.1s ease;
+  box-shadow: 0 0 10px #fff;
+}
+
+.loader-label {
+  font-family: var(--font-mono);
+  color: var(--text-muted);
+  font-size: 0.85rem;
+  letter-spacing: 4px;
+}
+
+/* --- Magic Cursor --- */
+.magic-cursor {
+  position: fixed;
+  top: 0; left: 0;
+  width: 20px;
+  height: 20px;
+  background: #fff;
+  border-radius: 50%;
+  pointer-events: none;
+  z-index: 999999;
+  mix-blend-mode: difference;
+  transition: width 0.3s ease, height 0.3s ease;
+  will-change: transform;
+}
+
+.magic-cursor.hovering {
+  width: 60px;
+  height: 60px;
+  background: #fff;
+}
+
+body {
+  cursor: none; /* Hide default cursor since we have the super smooth magic cursor */
+}
+
+/* --- Animated Grid Background --- */
+.bg-grid {
+  position: fixed;
+  inset: 0;
+  z-index: 1;
+  pointer-events: none;
+  background-size: 60px 60px;
+  background-image: 
+    linear-gradient(to right, rgba(6, 182, 212, 0.15) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(139, 92, 246, 0.15) 1px, transparent 1px);
+  animation: panGrid 10s linear infinite;
+  /* Fades out slightly at the very bottom so it blends with footer */
+  -webkit-mask-image: linear-gradient(to bottom, rgba(0,0,0,1) 0%, rgba(0,0,0,1) 60%, rgba(0,0,0,0) 100%);
+  mask-image: linear-gradient(to bottom, rgba(0,0,0,1) 0%, rgba(0,0,0,1) 60%, rgba(0,0,0,0) 100%);
+}
+
+@keyframes panGrid {
+  0% { transform: translateY(0); }
+  100% { transform: translateY(60px); }
+}
+
+.bg-orbs {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  z-index: -1;
+  overflow: hidden;
+  pointer-events: none;
+  background: var(--bg-main);
+}
+
+.orb {
+  position: absolute;
+  border-radius: 50%;
+  filter: blur(50px);
+  opacity: 0.75;
+  animation: float 12s infinite ease-in-out alternate;
+}
+
+.orb-1 {
+  width: 40vw;
+  height: 40vw;
+  background: radial-gradient(circle, rgba(139, 92, 246, 0.5) 0%, transparent 60%);
+  top: -10%;
+  left: -10%;
+}
+
+.orb-2 {
+  width: 35vw;
+  height: 35vw;
+  background: radial-gradient(circle, rgba(6, 182, 212, 0.45) 0%, transparent 60%);
+  bottom: 0%;
+  right: -5%;
+  animation-delay: -3s;
+}
+
+.orb-3 {
+  width: 25vw;
+  height: 25vw;
+  background: radial-gradient(circle, rgba(236, 72, 153, 0.4) 0%, transparent 60%);
+  top: 30%;
+  left: 40%;
+  animation-delay: -6s;
+}
+
+@keyframes float {
+  0% { transform: translate(0, 0) scale(1); }
+  33% { transform: translate(30px, -50px) scale(1.1); }
+  66% { transform: translate(-20px, 20px) scale(0.9); }
+  100% { transform: translate(0, 0) scale(1); }
+}
+
+/* Noise overlay for cinematic grit */
+.bg-noise {
+  position: fixed;
+  top: 0; left: 0; width: 100vw; height: 100vh;
+  opacity: 0.03;
+  z-index: 0;
+  pointer-events: none;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
+}
+
+/* Base layout */
+.app-container {
+  position: relative;
+  z-index: 10;
+  min-height: 100vh;
+}
